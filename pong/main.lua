@@ -13,24 +13,24 @@ local ball = Ball.new(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 10)
 
 ---@type Paddle
 local player1 = Paddle.new(
-  RECTANGLE_MARGIN,
-  WINDOW_HEIGHT / 2 - RECTANGLE_HEIGHT / 2,
-  RECTANGLE_WIDTH,
-  RECTANGLE_HEIGHT,
-  "w",
-  "s",
-  false
+	RECTANGLE_MARGIN,
+	WINDOW_HEIGHT / 2 - RECTANGLE_HEIGHT / 2,
+	RECTANGLE_WIDTH,
+	RECTANGLE_HEIGHT,
+	"w",
+	"s",
+	false
 )
 
 ---@type Paddle
 local player2 = Paddle.new(
-  WINDOW_WIDTH - (RECTANGLE_MARGIN + RECTANGLE_WIDTH),
-  WINDOW_HEIGHT / 2 - RECTANGLE_HEIGHT / 2,
-  RECTANGLE_WIDTH,
-  RECTANGLE_HEIGHT,
-  "up",
-  "down",
-  true
+	WINDOW_WIDTH - (RECTANGLE_MARGIN + RECTANGLE_WIDTH),
+	WINDOW_HEIGHT / 2 - RECTANGLE_HEIGHT / 2,
+	RECTANGLE_WIDTH,
+	RECTANGLE_HEIGHT,
+	"up",
+	"down",
+	false
 )
 ---@type State
 local state = State.new()
@@ -45,64 +45,64 @@ ScoreSound = love.audio.newSource("sounds/score.wav", "static")
 local scoreLimit = 10
 
 function love.load()
-  love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
-    fullscreen = false,
-    resizable = false,
-    vsync = true
-  })
+	love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
+		fullscreen = false,
+		resizable = false,
+		vsync = true,
+	})
 end
 
 function love.update(dt)
-  if state.state == "playing" then
-    ball:update(dt, state)
-    player1:update(ball, dt)
-    player2:update(ball, dt)
+	if state.state == "playing" then
+		ball:update(dt, state)
+		player1:update(ball, dt)
+		player2:update(ball, dt)
 
-    if ball:collide(player1) then
-      --ball.posX = player1.posX + player1.width
-      ball.dx = -ball.dx * 1.05
-      ball.dy = ball.dy + math.random(-300, 300)
-      player1.randomTracking = math.random(0, 100)
-      PaddleHitSound:play()
-    end
+		if ball:collide(player1) then
+			--ball.posX = player1.posX + player1.width
+			ball.dx = -ball.dx * 1.05
+			ball.dy = ball.dy + math.random(-300, 300)
+			player1.randomTracking = math.random(0, 100)
+			PaddleHitSound:play()
+		end
 
-    if ball:collide(player2) then
-      --ball.posX = player2.posX - player2.width
-      ball.dx = -ball.dx * 1.05
-      ball.dy = ball.dy + math.random(-300, 300)
-      player2.randomTracking = math.random(0, 100)
-      PaddleHitSound:play()
-    end
-  elseif state.state == "serve" then
-    ball:reset()
-  end
+		if ball:collide(player2) then
+			--ball.posX = player2.posX - player2.width
+			ball.dx = -ball.dx * 1.05
+			ball.dy = ball.dy + math.random(-300, 300)
+			player2.randomTracking = math.random(0, 100)
+			PaddleHitSound:play()
+		end
+	elseif state.state == "serve" then
+		ball:reset()
+	end
 
-  if state.player1Score >= scoreLimit or state.player2Score >= scoreLimit then
-    state.state = "over"
-  end
+	if state.player1Score >= scoreLimit or state.player2Score >= scoreLimit then
+		state.state = "over"
+	end
 end
 
 function love.draw()
-  player1:render()
-  player2:render()
-  ball:render()
-  state:draw()
+	player1:render()
+	player2:render()
+	ball:render()
+	state:draw()
 end
 
 function love.keypressed(key)
-  if key == "return" then
-    if state.state == "start" then
-      state.state = "serve"
-    elseif state.state == "over" then
-      state:reset()
-    end
-  end
+	if key == "return" then
+		if state.state == "start" then
+			state.state = "serve"
+		elseif state.state == "over" then
+			state:reset()
+		end
+	end
 
-  if key == "space" then
-    if state.state == "serve" then
-      state.state = "playing"
-    elseif state.state == "playing" then
-      state.state = "serve"
-    end
-  end
+	if key == "space" then
+		if state.state == "serve" then
+			state.state = "playing"
+		elseif state.state == "playing" then
+			state.state = "serve"
+		end
+	end
 end
