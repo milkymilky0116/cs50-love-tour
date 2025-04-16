@@ -63,7 +63,7 @@ function love.draw()
 end
 
 function love.update(dt)
-  Sounds["background"]:play()
+  -- Sounds["background"]:play()
   if IsScrolling then
     ground:update(dt)
     backgroundImg:update(dt)

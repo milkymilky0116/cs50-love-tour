@@ -9,7 +9,7 @@ Bird = {}
 
 Bird.__index = Bird
 
-local margin = 50
+local margin = 0
 
 ---@param image string
 ---@param speed number
@@ -32,7 +32,7 @@ function Bird:update(dt)
   self.y = self.y + self.dy
   if love.waspressed("space") then
     Sounds["jump"]:play()
-    self.dy = -5
+    self.dy = -4
   end
 end
 
@@ -57,17 +57,13 @@ end
 -- ---@param pipe Pipe
 -- ---@return boolean
 -- function Bird:collide(pipe)
--- 	-- the 2's are left and top offsets
--- 	-- the 4's are right and bottom offsets
--- 	-- both offsets are used to shrink the bounding box to give the player
--- 	-- a little bit of leeway with the collision
--- 	if (self.x + 2) + (self.image:getWidth() - 4) >= pipe.x and self.x + 2 <= pipe.x + pipe.image:getWidth() then
--- 		if (self.y + 2) + (self.image:getHeight() - 4) >= pipe.y and self.y + 2 <= pipe.y + pipe.image:getHeight() then
--- 			return true
--- 		end
--- 	end
+--   if (self.x + 2) + (self.image:getWidth() - 4) >= pipe.x and self.x + 2 <= pipe.x + pipe.image:getWidth() then
+--     if (self.y + 2) + (self.image:getHeight() - 4) >= pipe.y and self.y + 2 <= pipe.y + pipe.image:getHeight() then
+--       return true
+--     end
+--   end
 --
--- 	return false
+--   return false
 -- end
 
 function Bird:render()

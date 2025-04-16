@@ -36,7 +36,7 @@ function ScoreState:render()
     self.medal = "Bronze"
   elseif Score < 10 then
     self.medal = "Silver"
-  elseif Score < 20 then
+  else
     self.medal = "Gold"
   end
 

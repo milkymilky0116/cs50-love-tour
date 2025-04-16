@@ -14,7 +14,7 @@ setmetatable(PlayState, { __index = State })
 ---@return PlayState|State
 function PlayState.new()
   local this = setmetatable({}, PlayState)
-  this.bird = Bird.new("assets/bird.png", 10, 20)
+  this.bird = Bird.new("assets/bird.png", 10, 15)
   this.timer = 2
   this.pipe_pairs = {}
 
@@ -28,7 +28,7 @@ function PlayState:exit()
 end
 
 function PlayState:reset()
-  self.bird = Bird.new("assets/bird.png", 10, 20)
+  self.bird = Bird.new("assets/bird.png", 10, 15)
   self.timer = 2
   self.pipe_pairs = {}
   self.score = 0
