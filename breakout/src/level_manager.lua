@@ -2,6 +2,8 @@
 ---@field posX number
 ---@field posY number
 ---@field row number
+---@field width number
+---@field height number
 ---@field column number
 ---@field level number
 ---@field margin number
@@ -22,11 +24,13 @@ LevelManager.__index = LevelManager
 ---@return LevelManager
 function LevelManager.new(posX, posY, row, column, margin, isAlternate, isSkip, isMixed)
   local self = setmetatable({}, LevelManager)
-  self.posX = posX
-  self.posY = posY
+  self.margin = margin
   self.row = row
   self.column = column
-  self.margin = margin
+  self.width = (BLOCK_WIDTH + self.margin) * self.row
+  self.height = (BLOCK_HEIGHT + self.margin) * self.row
+  self.posX = posX - self.width / 2
+  self.posY = posY - self.height / 2
   self.isAlternate = isAlternate
   self.isSkip = isSkip
   self.isMixed = isMixed
