@@ -1,6 +1,7 @@
 require("src.module")
 require("src.constants")
 function love.load()
+  math.randomseed(os.time())
   love.keyboard.keypressed = {}
   GImage = {
     ["background"] = love.graphics.newImage("assets/images/background.png"),
@@ -33,6 +34,10 @@ function love.load()
     ["mediumFont"] = love.graphics.newFont("assets/font/font_breakout.ttf", 16),
     ["largeFont"] = love.graphics.newFont("assets/font/font_breakout.ttf", 24),
   }
+
+  GPaddles = GetPaddles()
+  GBalls = GetBalls()
+  GBlocks = GetBlocks()
 
   local states = {
     ["play"] = PlayState.new()
