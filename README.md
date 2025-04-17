@@ -15,5 +15,5 @@ Each folder contains the game source files which is written in Lua(Love2d), with
   - [x] Pause Feature
 - Chapter 2. Breakout
   - [x] Level Maker with flags(Alternate color, Skip Block, Mixed Level)
-  - [] Block collision
-  - [] Polishing game
+  - [ ] Block collision
+  - [ ] Polishing game
