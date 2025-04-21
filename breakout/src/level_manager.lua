@@ -10,9 +10,14 @@
 ---@field isAlternate boolean
 ---@field isSkip boolean
 ---@field isMixed boolean
+---@field isLevelMixed boolean
+---@field isNone boolean
 ---@field blocks Block[][]
+---@field blockTypes number[]
+---@field blockLevels number[]
 LevelManager = {}
 LevelManager.__index = LevelManager
+
 ---@param posX number
 ---@param posY number
 ---@param row number
@@ -21,8 +26,12 @@ LevelManager.__index = LevelManager
 ---@param isAlternate boolean
 ---@param isSkip boolean
 ---@param isMixed boolean
+---@param isLevelMixed boolean
+---@param blockTypes number[]
+---@param blockLevels number[]
 ---@return LevelManager
-function LevelManager.new(posX, posY, row, column, margin, isAlternate, isSkip, isMixed)
+function LevelManager.new(posX, posY, row, column, margin, isAlternate, isSkip, isMixed, isLevelMixed, blockTypes,
+                          blockLevels)
   local self = setmetatable({}, LevelManager)
   self.margin = margin
   self.row = row
@@ -34,6 +43,9 @@ function LevelManager.new(posX, posY, row, column, margin, isAlternate, isSkip, 
   self.isAlternate = isAlternate
   self.isSkip = isSkip
   self.isMixed = isMixed
+  self.isLevelMixed = isLevelMixed
+  self.blockTypes = blockTypes
+  self.blockLevels = blockLevels
   return self
 end
 
@@ -48,7 +60,9 @@ function LevelManager:makeLevel()
     if self.isMixed then
       self.isSkip = math.random(2) == 1
       self.isAlternate = math.random(2) == 1
+      self.isNone = math.random(self.column) == 1
     end
+
 
     for j = 0, self.row - 1 do
       local skipCount = 0
@@ -63,9 +77,11 @@ function LevelManager:makeLevel()
         skipCount = skipCount + 1
       end
 
-      local blockType = 1
+      local blockType = self.blockTypes[1]
+      local blockLevel = self.blockLevels[1]
       if self.isAlternate then
-        local visibleIndex = 0
+        local visibleIndex = i
+        local levelIndex = i
         for k = 0, j do
           local wouldSkip = false
           if self.isSkip then
@@ -73,17 +89,23 @@ function LevelManager:makeLevel()
               wouldSkip = true
             end
           end
-
           if not wouldSkip then
+            visibleIndex = visibleIndex % #self.blockTypes
             visibleIndex = visibleIndex + 1
-          end
-        end
 
-        if visibleIndex % 2 == 0 then
-          blockType = i % 2 == 0 and 2 or 1
-        else
-          blockType = i % 2 == 0 and 1 or 2
+            levelIndex = levelIndex % #self.blockLevels
+            levelIndex = levelIndex + 1
+            if self.isLevelMixed then
+              levelIndex = math.random(#self.blockLevels)
+            end
+          end
+          blockType = self.blockTypes[visibleIndex]
+          blockLevel = self.blockLevels[levelIndex]
         end
+      end
+
+      if self.isNone then
+        goto continue
       end
 
       if shouldSkip then
@@ -91,8 +113,7 @@ function LevelManager:makeLevel()
         goto continue
       end
 
-
-      local block = Block.new(baseX, baseY, blockType, 1)
+      local block = Block.new(baseX, baseY, blockType, blockLevel)
       table.insert(row, block)
       baseX = baseX + BLOCK_WIDTH + self.margin
       ::continue::

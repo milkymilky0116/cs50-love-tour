@@ -1,0 +1,10 @@
+PlayerOne,9500
+MasterGamer,8750
+LuaWizard,7200
+Player123,6500
+GameMaster,5800
+TopScore,4900
+LÖVE2D,3750
+CodingPro,3200
+NoobPlayer,2500
+GamerX,1800

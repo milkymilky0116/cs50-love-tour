@@ -35,16 +35,37 @@ function love.load()
     ["largeFont"] = love.graphics.newFont("assets/font/font_breakout.ttf", 24),
   }
 
+  local levelPosX = VIRTURE_WIDTH / 2
+  local levelPosY = VIRTURE_WIDTH / 2 - 100
+
+  GLevel = {
+    [1] = LevelManager.new(levelPosX, levelPosY, 10, 5, 3, false, false, false, false, { 1 }, { 1 }),
+    [2] = LevelManager.new(levelPosX, levelPosY, 10, 5, 3, true, false, false, false, { 1, 2 }, { 1, 2 }),
+    [3] = LevelManager.new(levelPosX, levelPosY, 10, 6, 3, true, true, true, true, { 2, 3, 4 }, { 2, 3, 4 }),
+    [4] = LevelManager.new(levelPosX, levelPosY, 10, 6, 3, true, true, true, false, { 2, 3, 4 }, { 2, 3, 4 }),
+    [5] = LevelManager.new(levelPosX, levelPosY, 12, 8, 3, true, true, false, true, { 1, 2, 3, 4 }, { 1, 2, 3, 4 }),
+  }
+
   GPaddles = GetPaddles()
   GBalls = GetBalls()
   GBlocks = GetBlocks()
+  GHearts = GetHeart()
 
   local states = {
+    ["select_paddle"] = SelectPaddleState.new(),
+    ["select_ball"] = SelectBallState.new(),
+    ["prepare"] = PrepareState.new(),
+    ["gameover"] = GameOverState.new(),
+    ["nextstage"] = NextStageState.new(),
+    ["complete"] = CompleteState.new(),
+    ["title"] = TitleState.new(),
+    ["highscore"] = HighScoreState.new(),
+    ["input"] = InputState.new(),
     ["play"] = PlayState.new()
   }
 
   GStateMachine = StateMachine.new(states)
-  GStateMachine:change("play")
+  GStateMachine:change("title")
 
   love.graphics.setDefaultFilter("nearest", "nearest")
   love.window.setTitle("Breakout")

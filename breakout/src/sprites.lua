@@ -52,3 +52,11 @@ function GetBlocks()
   end
   return quads
 end
+
+---@return love.Quad[]
+function GetHeart()
+  local quads = {}
+  quads[1] = love.graphics.newQuad(32 * 4, 16 * 3, 10, 10, GImage["main"])
+  quads[2] = love.graphics.newQuad(32 * 4 + 10, 16 * 3, 10, 10, GImage["main"])
+  return quads
+end
