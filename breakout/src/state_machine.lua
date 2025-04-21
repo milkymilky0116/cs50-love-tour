@@ -22,7 +22,7 @@ function StateMachine.new(states)
   self.states = states
   self.paddleTier = 1
   self.ballTier = 1
-  self.level = 2
+  self.level = 1
   self.health = 3
   self.score = 0
   self.highscore = HighScore.new(10, VIRTURE_HEIGHT / 2 - 40)
